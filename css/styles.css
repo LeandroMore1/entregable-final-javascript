@@ -1,0 +1,125 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+@font-face {
+    font-family: "squids";
+    src: url("../fonts/Game\ Of\ Squids.ttf");
+}
+
+
+body {
+    font-family: "bebas neue";
+    background-image: linear-gradient(to bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+header h1{
+    font-family: "squids";
+    color: white;
+    margin-top: 20px;
+}
+
+header img {
+    margin-right: 50px;
+}
+
+.seccionBusqueda{
+display: flex;
+justify-content: center;
+margin-top: 20px;
+}
+
+.seccionBusqueda a{
+    align-self: center;
+    text-decoration: none;
+    color: black;
+    margin-left: 25px;
+}
+
+.seccionBusqueda input{
+    width: 700px;
+    height: 35px;
+    border: none;
+    margin-right: 75px;
+    border-radius: 5px;
+}
+
+.seccionBusqueda button{
+    width: 100px;
+    border-radius: 10px;
+    border:none;
+    opacity: 0.6;
+}
+
+.producto {
+    width: 220px;
+    height: 350px;
+    background-image: linear-gradient(to top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+    margin: 60px;
+    border-radius: 10px;
+    align-items: center;
+    color: rgb(71, 71, 71);
+}
+
+.producto button{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    border: none;
+    border-radius: 5px;
+    width: 70px;
+    font-size: 20px;
+    color: rgb(71, 71, 71);
+}
+
+.producto img{
+    height: 100px;
+    margin-top: 25px;
+    border-radius: 10px;
+}
+
+.producto h2{
+    font-size: 25px;
+    margin-top: 20px;
+}
+
+.producto h3{
+    font-size: 20px;
+}
+
+.producto h4{
+    font-size: 30px;
+}
+
+.producto h5{
+    font-size: 17px;
+}
+
+#contenedorJuegos {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+}
+
+.itemCarrito p{
+
+    margin-top: 20px;
+    color: rgb(71, 71, 71);
+}
+
+
+#carrito{
+    width: 1000px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+}
