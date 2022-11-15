@@ -77,24 +77,7 @@ if (localStorage.getItem("carrito")) {
   listaCarrito = JSON.parse(localStorage.getItem("carrito"));
 }
 
-for (const boton of botones) {
-  boton.onclick = (e) => {
-    let juegoBusqueda = juegos.find((juego) => juego.id == e.target.id);
-    carrito.innerHTML += `
-          <div class="itemCarrito d-flex justify-content-around">
-          <p>${juegoBusqueda.nombre}</p>
-          <p>${juegoBusqueda.precio}</p>
-          </div>
-      `;
-    listaCarrito.push({
-      id: juegoBusqueda.id,
-      nombre: juegoBusqueda.nombre,
-      genero: juegoBusqueda.genero,
-      precio: juegoBusqueda.precio,
-    });
-    localStorage.setItem("carrito", JSON.stringify(listaCarrito));
-  };
-}
+
 
 for (const item of listaCarrito) {
   let juegoBusqueda = juegos.find((juego) => juego.id == item.id);
@@ -135,3 +118,22 @@ function juegosRenderizados(juegosFiltrados) {
     contenedorJuegos.append(productoJuego);
   }
 }
+
+for (const boton of botones) {
+    boton.onclick = (e) => {
+      let juegoBusqueda = juegos.find((juego) => juego.id == e.target.id);
+      carrito.innerHTML += `
+            <div class="itemCarrito d-flex justify-content-around">
+            <p>${juegoBusqueda.nombre}</p>
+            <p>${juegoBusqueda.precio}</p>
+            </div>
+        `;
+      listaCarrito.push({
+        id: juegoBusqueda.id,
+        nombre: juegoBusqueda.nombre,
+        genero: juegoBusqueda.genero,
+        precio: juegoBusqueda.precio,
+      });
+      localStorage.setItem("carrito", JSON.stringify(listaCarrito));
+    };
+  }
