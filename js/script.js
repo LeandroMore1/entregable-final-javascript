@@ -5,6 +5,7 @@ let juegos = [
     genero: "accion, aventura",
     precio: 5000,
     imagen: "./img/cyberpunk.jpeg",
+    descuento: true,
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ let juegos = [
     genero: "terror, accion",
     precio: 7000,
     imagen: "./img/re4remake.jpg",
+    descuento: false,
   },
   {
     id: 3,
@@ -19,6 +21,7 @@ let juegos = [
     genero: "accion, shooter",
     precio: 6000,
     imagen: "./img/battlefield2042.jpeg",
+    descuento: false,
   },
   {
     id: 4,
@@ -26,6 +29,7 @@ let juegos = [
     genero: "aventura",
     precio: 7500,
     imagen: "./img/acMirage.jpg",
+    descuento: true,
   },
   {
     id: 5,
@@ -33,6 +37,7 @@ let juegos = [
     genero: "carreras",
     precio: 5000,
     imagen: "../img/forzaHorizon.jpg",
+    descuento: false,
   },
   {
     id: 6,
@@ -40,6 +45,7 @@ let juegos = [
     genero: "accion, aventura",
     precio: 7500,
     imagen: "./img/gowRagnarok.jfif",
+    descuento: true,
   },
   {
     id: 7,
@@ -47,6 +53,7 @@ let juegos = [
     genero: "accion, aventura",
     precio: 5000,
     imagen: "./img/eldenRing.jpg",
+    descuento: false,
   },
   {
     id: 8,
@@ -54,6 +61,7 @@ let juegos = [
     genero: "accion, shooter",
     precio: 7000,
     imagen: "./img/codmw2.jpg",
+    descuento: false,
   },
   {
     id: 9,
@@ -61,6 +69,7 @@ let juegos = [
     genero: "accion, aventura",
     precio: 6000,
     imagen: "./img/horizon.jfif",
+    descuento: true,
   },
 ];
 
@@ -70,31 +79,51 @@ let carrito = document.getElementById("carrito");
 let listaCarrito = [];
 let buscarBoton = document.getElementById("botonBuscar");
 let buscarInput = document.getElementById("busqueda");
+let botonCarrito = document.getElementById("btnCarrito")
+let totalPrecio = document.getElementById("total")
+let totalInicial = 0
 
 juegosRenderizados();
+juegosAgregados();
+renderizarCarrito();
 
 if (localStorage.getItem("carrito")) {
   listaCarrito = JSON.parse(localStorage.getItem("carrito"));
 }
 
 
+// NOTE boton carrito
 
-for (const item of listaCarrito) {
-  let juegoBusqueda = juegos.find((juego) => juego.id == item.id);
-  carrito.innerHTML += `
-          <div class="itemCarrito d-flex justify-content-around">
-            <p>${juegoBusqueda.nombre}</p>
-            <p>${juegoBusqueda.precio}</p>
-          </div>
-        `;
+botonCarrito.onclick = () => {
+  carrito.classList.toggle("invisible")
 }
 
-buscarBoton.onclick = () => {
+// NOTE barra busqueda
+
+// for (const item of listaCarrito) {
+//   let juegoBusqueda = juegos.find((juego) => juego.id == item.id);
+//   carrito.innerHTML += `
+//           <div class="itemCarrito d-flex justify-content-around">
+//             <p>${juegoBusqueda.nombre}</p>
+//             <p>${juegoBusqueda.precio}</p>
+//           </div>
+//         `;
+// }
+
+
+
+// NOTE busqueda
+
+buscarInput.oninput = () => {
   let juegosFiltrados = juegos.filter((juego) =>
     juego.nombre.includes(buscarInput.value)
   );
   juegosRenderizados(juegosFiltrados);
-};
+  juegosAgregados()
+}
+
+
+// NOTE catalogo juegos
 
 function juegosRenderizados(juegosFiltrados) {
   let juegosARenderizar = juegos;
@@ -108,32 +137,151 @@ function juegosRenderizados(juegosFiltrados) {
     let productoJuego = document.createElement("div");
     productoJuego.className =
       "producto d-flex flex-column justify-content-around align-items-center";
-    productoJuego.innerHTML = `
-          <img src=${juego.imagen}>
-          <h2>${juego.nombre}</h2>
-          <h4>$${juego.precio}</h4>
-          <h5>género: ${juego.genero}</h5>
-          <button class="boton" id=${juego.id}>Agregar</button>
-          `;
-    contenedorJuegos.append(productoJuego);
+    if (juego.descuento === true) {
+      let descuento = juego.precio - (25 / 100) * juego.precio;
+      productoJuego.innerHTML = `
+        <img src=${juego.imagen}>
+        <h2>${juego.nombre}</h2>
+        <del>$${juego.precio}</del>
+        <h4>$${descuento}</h4>
+        <h5>género: ${juego.genero}</h5>
+        <p class="descuento">descuento 25%!</p>
+        <button class="btn btn-light boton" id=${juego.id}>Agregar</button>
+        `;
+      contenedorJuegos.append(productoJuego);
+    } else {
+      productoJuego.innerHTML = `
+        <img src=${juego.imagen}>
+        <h2>${juego.nombre}</h2>
+        <h4>$${juego.precio}</h4>
+        <h5>género: ${juego.genero}</h5>
+        <button class="btn btn-light boton" id=${juego.id}>Agregar</button>
+        `;
+      contenedorJuegos.append(productoJuego);
+    }
   }
 }
 
-for (const boton of botones) {
+// NOTE agregar juego al carro
+
+function juegosAgregados(){
+  for (const boton of botones) {
     boton.onclick = (e) => {
       let juegoBusqueda = juegos.find((juego) => juego.id == e.target.id);
-      carrito.innerHTML += `
-            <div class="itemCarrito d-flex justify-content-around">
-            <p>${juegoBusqueda.nombre}</p>
-            <p>${juegoBusqueda.precio}</p>
-            </div>
-        `;
-      listaCarrito.push({
-        id: juegoBusqueda.id,
-        nombre: juegoBusqueda.nombre,
-        genero: juegoBusqueda.genero,
-        precio: juegoBusqueda.precio,
-      });
+      
+
+
+      if (juegoBusqueda.descuento === true) {
+
+        let descuento = juegoBusqueda.precio - (25 / 100) * juegoBusqueda.precio;
+        let posicionJuego = listaCarrito.findIndex(juego => juego.id == juegoBusqueda.id)
+
+        if (posicionJuego != -1) {
+          listaCarrito[posicionJuego].unidades++
+          listaCarrito[posicionJuego].subtotal = listaCarrito[posicionJuego].precioXUnidad * listaCarrito[posicionJuego].unidades
+        } else {
+          listaCarrito.push({
+            id: juegoBusqueda.id,
+            nombre: juegoBusqueda.nombre,
+            genero: juegoBusqueda.genero,
+            precioXUnidad: descuento,
+            unidades: 1,
+            subtotal: descuento
+          })}
+        
+        carrito.innerHTML += `
+          <div class="itemCarrito d-flex justify-content-around">
+          <p>${juegoBusqueda.nombre}</p>
+          <p>$${descuento}</p>
+          </div>
+      `
+      // listaCarrito.push
+      //   id: juegoBusqueda.id,
+      //   nombre: juegoBusqueda.nombre,
+      //   genero: juegoBusqueda.genero,
+      //   precioXUnidad: descuento,
+      //   unidades: 1,
+      //   subtotal: descuento
+      // 
+
+      tostada()
       localStorage.setItem("carrito", JSON.stringify(listaCarrito));
-    };
+      renderizarCarrito()
+      } else {
+
+        let posicionJuego = listaCarrito.findIndex(juego => juego.id == juegoBusqueda.id)
+
+        if (posicionJuego != -1) {
+          listaCarrito[posicionJuego].unidades++
+          listaCarrito[posicionJuego].subtotal = listaCarrito[posicionJuego].precioXUnidad * listaCarrito[posicionJuego].unidades
+        } else {
+          listaCarrito.push({
+            id: juegoBusqueda.id,
+            nombre: juegoBusqueda.nombre,
+            genero: juegoBusqueda.genero,
+            precioXUnidad: juegoBusqueda.precio,
+            unidades: 1,
+            subtotal: juegoBusqueda.precio
+          })
+        
+
+        carrito.innerHTML += `
+          <div class="itemCarrito d-flex justify-content-around">
+          <p>${juegoBusqueda.nombre}</p>
+          <p>$${juegoBusqueda.precio}</p>
+          </div>
+      `;
+
+
+      tostada()
+      localStorage.setItem("carrito", JSON.stringify(listaCarrito));
+      renderizarCarrito()
+      }
+    }
+      
+    }
   }
+}
+
+function renderizarCarrito(){
+  carrito.innerHTML = `
+  <div class="itemCarrito d-flex justify-content-around">
+    <p>nombre</p>
+    <p>precio por unidad</p>
+    <p>unidades</p>
+    <p>subtotal</p>
+
+  </div>`
+  for (const item of listaCarrito) {
+    carrito.innerHTML += `
+    <div class="itemCarrito d-flex justify-content-around">
+      <p>${item.nombre}</p>
+      <p>${item.precioXUnidad}</p>
+      <p>${item.unidades}</p>
+      <p>${item.subtotal}</p>
+  
+    </div>`
+  }
+
+}
+
+function tostada(){
+  Toastify({
+
+    text: "Producto agregado!",
+    style:{
+      background: "linear-gradient(to left, #d16ba5, #b194e8, #6cbdff, #11e0ff, #5ffbf1)"
+    },
+    duration: 3000
+    
+    }).showToast();
+}
+
+      // listaCarrito.push
+      //   id: juegoBusqueda.id,
+      //   nombre: juegoBusqueda.nombre,
+      //   genero: juegoBusqueda.genero,
+      //   precioXUnidad: juegoBusqueda.precio,
+      //   unidades: 1,
+      //   subtotal: juegoBusqueda.precio
+      //

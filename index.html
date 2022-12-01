@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Flame Gaming | Los mejores juegos</title>
 </head>
 
@@ -30,17 +31,26 @@
         </div>
     </header>
 
+
     <div id="contenedorJuegos"></div>
 
-    <h2 class="d-flex justify-content-center">carrito</h2>
+    <h2 id="tituloCarrito" class="d-flex justify-content-center">carrito</h2>
+
+    
     <section id="seccionCarrito">
 
-        <div id="carrito">
+        <div class="invisible" id="carrito">
         </div>
 
     </section>
 
 
+    <div class="botonCarritoDiv">
+        <a href="#tituloCarrito"><button id="btnCarrito"><img src="./img/carrito.jpg" alt=""></button></a>
+    </div>
+
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./js/script.js"></script>
 </body>
 

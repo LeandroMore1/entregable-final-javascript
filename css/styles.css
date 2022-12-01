@@ -49,31 +49,39 @@ margin-top: 20px;
     border-radius: 5px;
 }
 
+del {
+    font-size: 30px;
+}
+
 .seccionBusqueda button{
     width: 100px;
     border-radius: 10px;
     border:none;
-    opacity: 0.6;
+    color: rgb(71, 71, 71);
+    margin-right: 15px;
 }
 
 .producto {
     width: 220px;
-    height: 350px;
+    height:450px;
     background-image: linear-gradient(to top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
     margin: 60px;
     border-radius: 10px;
     align-items: center;
     color: rgb(71, 71, 71);
 }
+.descuento{
+    color: white;
+    font-size: 25px;
+}
+
+
 
 .producto button{
-    margin-top: 20px;
     margin-bottom: 30px;
-    border: none;
-    border-radius: 5px;
-    width: 70px;
     font-size: 20px;
     color: rgb(71, 71, 71);
+
 }
 
 .producto img{
@@ -109,6 +117,23 @@ margin-top: 20px;
 
     margin-top: 20px;
     color: rgb(71, 71, 71);
+}
+
+.botonCarritoDiv{
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    margin-bottom: 15px;
+    margin-right: 35px;
+}
+
+#btnCarrito img {
+    height:40px;
+    width: 40px;
+}
+
+.invisible{
+    display: none;
 }
 
 
