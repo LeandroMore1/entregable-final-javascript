@@ -1,0 +1,73 @@
+[{
+        "id": 1,
+        "nombre": "cyberpunk 2077",
+        "genero": "accion, aventura",
+        "precio": 5000,
+        "imagen": "./img/cyberpunk.jpeg",
+        "descuento": true
+    },
+    {
+        "id": 2,
+        "nombre": "resident evil 4 remake",
+        "genero": "terror, accion",
+        "precio": 7000,
+        "imagen": "./img/re4remake.jpg",
+        "descuento": false
+    },
+    {
+        "id": 3,
+        "nombre": "battlefield 2042",
+        "genero": "accion, shooter",
+        "precio": 6000,
+        "imagen": "./img/battlefield2042.jpeg",
+        "descuento": false
+    },
+    {
+        "id": 4,
+        "nombre": "assasins creed mirage",
+        "genero": "aventura",
+        "precio": 7500,
+        "imagen": "./img/acMirage.jpg",
+        "descuento": true
+    },
+    {
+        "id": 5,
+        "nombre": "forza horizon 5",
+        "genero": "carreras",
+        "precio": 5000,
+        "imagen": "../img/forzaHorizon.jpg",
+        "descuento": false
+    },
+    {
+        "id": 6,
+        "nombre": "god of war ragnarok",
+        "genero": "accion, aventura",
+        "precio": 7500,
+        "imagen": "./img/gowRagnarok.jfif",
+        "descuento": true
+    },
+    {
+        "id": 7,
+        "nombre": "elden ring",
+        "genero": "accion, aventura",
+        "precio": 5000,
+        "imagen": "./img/eldenRing.jpg",
+        "descuento": false
+    },
+    {
+        "id": 8,
+        "nombre": "call of duty mw2",
+        "genero": "accion, shooter",
+        "precio": 7000,
+        "imagen": "./img/codmw2.jpg",
+        "descuento": false
+    },
+    {
+        "id": 9,
+        "nombre": "horizon forbidden west",
+        "genero": "accion, aventura",
+        "precio": 6000,
+        "imagen": "./img/horizon.jfif",
+        "descuento": true
+    }
+]

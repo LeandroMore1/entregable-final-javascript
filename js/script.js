@@ -71,7 +71,7 @@ let juegos = [
     imagen: "./img/horizon.jfif",
     descuento: true,
   },
-];
+]; 
 
 let contenedorJuegos = document.getElementById("contenedorJuegos");
 let botones = document.getElementsByClassName("boton");
@@ -79,9 +79,11 @@ let carrito = document.getElementById("carrito");
 let listaCarrito = [];
 let buscarBoton = document.getElementById("botonBuscar");
 let buscarInput = document.getElementById("busqueda");
-let botonCarrito = document.getElementById("btnCarrito")
-let totalPrecio = document.getElementById("total")
-let totalInicial = 0
+let botonCarrito = document.getElementById("btnCarrito");
+let totalPrecio = document.getElementById("total");
+let compraFinalizada = document.getElementById("compraFinalizada");
+let finalizarCompraBtn = document.getElementById("finalizarCompraBtn");
+let total = 0;
 
 juegosRenderizados();
 juegosAgregados();
@@ -91,26 +93,21 @@ if (localStorage.getItem("carrito")) {
   listaCarrito = JSON.parse(localStorage.getItem("carrito"));
 }
 
+// NOTE intente hacer un fetch aca metiendo el array del json en una variable juegos, pero me bugeaba todo el codigo
+
+// const hacerFetch = () => {
+// fetch(`./juegos.json`)
+//   .then(response => response.json())
+//   .then(catalogoJuegos => juegos = catalogoJuegos )
+// }
+
+// hacerFetch()
 
 // NOTE boton carrito
 
 botonCarrito.onclick = () => {
-  carrito.classList.toggle("invisible")
-}
-
-// NOTE barra busqueda
-
-// for (const item of listaCarrito) {
-//   let juegoBusqueda = juegos.find((juego) => juego.id == item.id);
-//   carrito.innerHTML += `
-//           <div class="itemCarrito d-flex justify-content-around">
-//             <p>${juegoBusqueda.nombre}</p>
-//             <p>${juegoBusqueda.precio}</p>
-//           </div>
-//         `;
-// }
-
-
+  carrito.classList.toggle("invisible");
+};
 
 // NOTE busqueda
 
@@ -119,9 +116,8 @@ buscarInput.oninput = () => {
     juego.nombre.includes(buscarInput.value)
   );
   juegosRenderizados(juegosFiltrados);
-  juegosAgregados()
-}
-
+  juegosAgregados();
+};
 
 // NOTE catalogo juegos
 
@@ -134,28 +130,29 @@ function juegosRenderizados(juegosFiltrados) {
   contenedorJuegos.innerHTML = "";
 
   for (const juego of juegosARenderizar) {
+    const { id, nombre, genero, precio, imagen, } = juego;
     let productoJuego = document.createElement("div");
     productoJuego.className =
       "producto d-flex flex-column justify-content-around align-items-center";
     if (juego.descuento === true) {
-      let descuento = juego.precio - (25 / 100) * juego.precio;
+      let descuentoJuego = juego.precio - (25 / 100) * juego.precio;
       productoJuego.innerHTML = `
-        <img src=${juego.imagen}>
-        <h2>${juego.nombre}</h2>
-        <del>$${juego.precio}</del>
-        <h4>$${descuento}</h4>
-        <h5>género: ${juego.genero}</h5>
+        <img src=${imagen}>
+        <h2>${nombre}</h2>
+        <del>$${precio}</del>
+        <h4>$${descuentoJuego}</h4>
+        <h5>género: ${genero}</h5>
         <p class="descuento">descuento 25%!</p>
-        <button class="btn btn-light boton" id=${juego.id}>Agregar</button>
+        <button class="btn btn-light boton" id=${id}>Agregar</button>
         `;
       contenedorJuegos.append(productoJuego);
     } else {
       productoJuego.innerHTML = `
-        <img src=${juego.imagen}>
-        <h2>${juego.nombre}</h2>
-        <h4>$${juego.precio}</h4>
-        <h5>género: ${juego.genero}</h5>
-        <button class="btn btn-light boton" id=${juego.id}>Agregar</button>
+        <img src=${imagen}>
+        <h2>${nombre}</h2>
+        <h4>$${precio}</h4>
+        <h5>género: ${genero}</h5>
+        <button class="btn btn-light boton" id=${id}>Agregar</button>
         `;
       contenedorJuegos.append(productoJuego);
     }
@@ -164,21 +161,23 @@ function juegosRenderizados(juegosFiltrados) {
 
 // NOTE agregar juego al carro
 
-function juegosAgregados(){
+function juegosAgregados() {
   for (const boton of botones) {
     boton.onclick = (e) => {
       let juegoBusqueda = juegos.find((juego) => juego.id == e.target.id);
-      
-
 
       if (juegoBusqueda.descuento === true) {
-
-        let descuento = juegoBusqueda.precio - (25 / 100) * juegoBusqueda.precio;
-        let posicionJuego = listaCarrito.findIndex(juego => juego.id == juegoBusqueda.id)
+        let descuento =
+          juegoBusqueda.precio - (25 / 100) * juegoBusqueda.precio;
+        let posicionJuego = listaCarrito.findIndex(
+          (juego) => juego.id == juegoBusqueda.id
+        );
 
         if (posicionJuego != -1) {
           listaCarrito[posicionJuego].unidades++
-          listaCarrito[posicionJuego].subtotal = listaCarrito[posicionJuego].precioXUnidad * listaCarrito[posicionJuego].unidades
+          listaCarrito[posicionJuego].subtotal =
+            listaCarrito[posicionJuego].precioXUnidad *
+            listaCarrito[posicionJuego].unidades
         } else {
           listaCarrito.push({
             id: juegoBusqueda.id,
@@ -186,34 +185,27 @@ function juegosAgregados(){
             genero: juegoBusqueda.genero,
             precioXUnidad: descuento,
             unidades: 1,
-            subtotal: descuento
-          })}
-        
+            subtotal: descuento,
+          });
+        }
+
         carrito.innerHTML += `
           <div class="itemCarrito d-flex justify-content-around">
           <p>${juegoBusqueda.nombre}</p>
           <p>$${descuento}</p>
           </div>
-      `
-      // listaCarrito.push
-      //   id: juegoBusqueda.id,
-      //   nombre: juegoBusqueda.nombre,
-      //   genero: juegoBusqueda.genero,
-      //   precioXUnidad: descuento,
-      //   unidades: 1,
-      //   subtotal: descuento
-      // 
+      `;
 
-      tostada()
-      localStorage.setItem("carrito", JSON.stringify(listaCarrito));
-      renderizarCarrito()
       } else {
-
-        let posicionJuego = listaCarrito.findIndex(juego => juego.id == juegoBusqueda.id)
+        let posicionJuego = listaCarrito.findIndex(
+          (juego) => juego.id == juegoBusqueda.id
+        );
 
         if (posicionJuego != -1) {
           listaCarrito[posicionJuego].unidades++
-          listaCarrito[posicionJuego].subtotal = listaCarrito[posicionJuego].precioXUnidad * listaCarrito[posicionJuego].unidades
+          listaCarrito[posicionJuego].subtotal =
+            listaCarrito[posicionJuego].precioXUnidad *
+            listaCarrito[posicionJuego].unidades
         } else {
           listaCarrito.push({
             id: juegoBusqueda.id,
@@ -221,29 +213,28 @@ function juegosAgregados(){
             genero: juegoBusqueda.genero,
             precioXUnidad: juegoBusqueda.precio,
             unidades: 1,
-            subtotal: juegoBusqueda.precio
-          })
-        
+            subtotal: juegoBusqueda.precio,
+          });
 
-        carrito.innerHTML += `
+          carrito.innerHTML += `
           <div class="itemCarrito d-flex justify-content-around">
           <p>${juegoBusqueda.nombre}</p>
           <p>$${juegoBusqueda.precio}</p>
           </div>
       `;
+        }
 
-
-      tostada()
-      localStorage.setItem("carrito", JSON.stringify(listaCarrito));
-      renderizarCarrito()
       }
-    }
-      
-    }
+      tostada()
+      localStorage.setItem("carrito", JSON.stringify(listaCarrito))
+      renderizarCarrito()
+    };
   }
 }
 
-function renderizarCarrito(){
+// NOTE renderizado carrito
+
+function renderizarCarrito() {
   carrito.innerHTML = `
   <div class="itemCarrito d-flex justify-content-around">
     <p>nombre</p>
@@ -251,37 +242,52 @@ function renderizarCarrito(){
     <p>unidades</p>
     <p>subtotal</p>
 
-  </div>`
+  </div>`;
+
   for (const item of listaCarrito) {
+    const {nombre, precioXUnidad, unidades, subtotal} = item
+    total += item.subtotal;
     carrito.innerHTML += `
     <div class="itemCarrito d-flex justify-content-around">
-      <p>${item.nombre}</p>
-      <p>${item.precioXUnidad}</p>
-      <p>${item.unidades}</p>
-      <p>${item.subtotal}</p>
+      <p>${nombre}</p>
+      <p>${precioXUnidad}</p>
+      <p>${unidades}</p>
+      <p>${subtotal}</p>
   
-    </div>`
+    </div>`;
   }
 
-}
+  carrito.innerHTML += `
+  <div class="d-flex flex-column align-items-center"
+    <p>TOTAL: $${total}</p>
+    </div>
+    `;
 
-function tostada(){
-  Toastify({
-
-    text: "Producto agregado!",
-    style:{
-      background: "linear-gradient(to left, #d16ba5, #b194e8, #6cbdff, #11e0ff, #5ffbf1)"
-    },
-    duration: 3000
     
-    }).showToast();
 }
 
-      // listaCarrito.push
-      //   id: juegoBusqueda.id,
-      //   nombre: juegoBusqueda.nombre,
-      //   genero: juegoBusqueda.genero,
-      //   precioXUnidad: juegoBusqueda.precio,
-      //   unidades: 1,
-      //   subtotal: juegoBusqueda.precio
-      //
+
+
+// NOTE boton finalizar compra, no se por que cuando lo invoco no pasa nada
+
+function finalizarCompra() {
+  finalizarCompraBtn.onclick = () => {
+    compraFinalizada.classList.toggle("invisible");
+    compraFinalizada.innerHTML = `
+      <div class="d-flex flex-column align-items-center"
+        <h2>El total es de $${total} pesos</h2>
+        <h2>Gracias por su compra!</h2>
+        </div>`;
+  };
+}
+
+function tostada() {
+  Toastify({
+    text: "Producto agregado!",
+    style: {
+      background:
+        "linear-gradient(to left, #d16ba5, #b194e8, #6cbdff, #11e0ff, #5ffbf1)",
+    },
+    duration: 3000,
+  }).showToast();
+}

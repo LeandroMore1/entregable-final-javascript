@@ -76,7 +76,6 @@ del {
 }
 
 
-
 .producto button{
     margin-bottom: 30px;
     font-size: 20px;
@@ -136,6 +135,13 @@ del {
     display: none;
 }
 
+.compraFinalizada{
+    position: fixed;
+}
+
+.finalizarCompraBtn{
+    margin-bottom: 20px;
+}
 
 #carrito{
     width: 1000px;
